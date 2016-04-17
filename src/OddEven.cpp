@@ -19,6 +19,7 @@ Return an Array consisting of two numbers [Oddcount,Evencount] or NULL for inval
 Ex 2 : 50->4->3->7->10->99->17
 O.P : SLL randoms should be modified as .
 50->4->10 . [Even numbers if transversed through Randoms from 50]
+
 3->7->99->17. [Odd numbers if transversed through Randoms from 3]
 The function SHOULD RETURN [4,3]  . Oddnumbers and Even numbers count array .
 
@@ -38,7 +39,73 @@ struct oddevennode{
 
 };
 
-int * oddeven_sll(struct oddevennode *head){
+int * oddeven_sll(struct oddevennode *head)
+{
+	if (head != NULL)
+	{
+		int *a;
+		a = (int*)malloc(2 * sizeof(int));
+		a[0] = 0;
+		a[1] = 0;
+		struct oddevennode  *temp, *todd, *teven;
+		temp = head;
+		while (temp != NULL)
+		{
+			if ((temp->data) % 2 != 0)
+			{
+				a[0]++;
+				todd = temp;
+				if (todd->next != NULL)
+				{
+					while (((todd->next)->data) % 2 == 0 && (todd->next)->next != NULL)
+					{
+						todd = todd->next;
+					}
+					if ((todd->next)->next != NULL)
+						temp->random = todd->next;
+					else
+					{
+						if (((todd->next)->data) % 2 != 0)
+						{
+							temp->random = todd->next;
+							(temp->random)->random = NULL;
+						}
+						else
+							temp->random = NULL;
 
+					}
+					//temp->random = NULL;
+				}
+			}
+			else
+			{
+				a[1]++;
+				teven = temp;
+				if (teven->next != NULL)
+				{
+					while (((teven->next)->data) % 2 != 0 && (teven->next)->next != NULL)
+					{
+						teven = teven->next;
+					}
+					if ((teven->next)->next != NULL)
+						temp->random = teven->next;
+					else
+					{
+						if (((teven->next)->data) % 2 == 0)
+						{
+							temp->random = teven->next;
+							(temp->random)->random = NULL;
+						}
+						else
+							temp->random = NULL;
+					}
+
+				}
+			}
+			temp = temp->next;
+		}
+		return a;
+
+	}
 	return NULL;
 }
